@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://geronimo.apache.org/xml/ns/j2ee/web-1.1"  configId="pl/pioro/poc/UploadApplication">
+	<context-root>/UploadApplication</context-root>
+	<context-priority-classloader>true</context-priority-classloader>
+</web-app>
