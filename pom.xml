@@ -14,8 +14,8 @@
     
     <scm>
 		<url>https://github.com/milioner69/UploadApplication</url>
-		<connection>scm:git:ssh@github.com:milioner69/${project.artifactId}.git</connection>
-		<developerConnection>scm:git:ssh@github.com:milioner69/${project.artifactId}.git</developerConnection>
+		<connection>scm:git:git@github.com:milioner69/${project.artifactId}.git</connection>
+		<developerConnection>scm:git:git@github.com:milioner69/${project.artifactId}.git</developerConnection>
 	  <tag>UploadApplication-0.1.4</tag>
   </scm>
     
