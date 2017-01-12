@@ -16,8 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import pl.pioro.model.UploadedFileDTO;
 
-@Transactional
-@Component
+//@Transactional
+//@Component
 public class FileDaoImpl implements FileDao {
 
 	@Autowired

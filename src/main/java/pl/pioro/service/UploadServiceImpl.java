@@ -18,7 +18,9 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import pl.pioro.dao.FileDao;
+import pl.pioro.dao.DownloadDao;
+import pl.pioro.dao.FileNewDao;
+import pl.pioro.model.DownloadedFileDTO;
 import pl.pioro.model.UploadedFileDTO;
 import pl.pioro.model.ValidityEnum;
 
@@ -28,13 +30,13 @@ public class UploadServiceImpl implements UploadService {
 	@Value("${uploaed.dir.parh}")
 	private String uploadFilePath;
 	
-	@Autowired
-	FileDao fileDao;
+	@Autowired FileNewDao fileDao;
+	@Autowired DownloadDao downloadDao;
 	
 	Log logger = LogFactory.getLog(getClass());
 	
 	@Override
-	public UploadedFileDTO saveFile(MultipartFile file, String dirPath, String validity, String sourceIp, String sessionId) {
+	public UploadedFileDTO saveFile(MultipartFile file, String dirPath, String validity, String sourceIp, String sessionId, String email) {
 		UploadedFileDTO dto = new UploadedFileDTO();
 		dto.setFileDir(dirPath);
 		dto.setFileName(file.getOriginalFilename());
@@ -43,19 +45,36 @@ public class UploadServiceImpl implements UploadService {
 		dto.setUploadStart(new Date());
 		dto.setFileSize(file.getSize());
 		dto.setSessionId(sessionId);
+		dto.setEmail(email);
 		ValidityEnum validityEnum = ValidityEnum.fromValue(validity);
 		dto.setFileExpr(getExpirationDate(validityEnum));
 		saveInFileSystem(dto,dirPath,file);
 		dto.setUploadStop(new Date());
-		fileDao.insert(dto);
+
+		fileDao.save(dto);
 		logger.debug("File saved: ["+dto+"]");
 		return dto;
 	}
 
 
 	@Override
+	public DownloadedFileDTO saveDownoadedFile(DownloadedFileDTO file) {
+		file = downloadDao.save(file);
+		logger.info("Download action saved: ["+file+"]");
+		return file;
+	}
+	
+	
+	@Override
+	public List<DownloadedFileDTO> getFileDownloads(String uuid) {
+		return downloadDao.getDownloadsForFile(uuid);
+	}
+	
+	
+	
+	@Override
 	public UploadedFileDTO getFile(String uuid) {
-		return fileDao.getByUUID(uuid);
+		return fileDao.getByUuid(uuid);
 	}
 	
 	private void saveInFileSystem(UploadedFileDTO dto, String dirPath, MultipartFile file){
@@ -82,6 +101,11 @@ public class UploadServiceImpl implements UploadService {
 		GregorianCalendar cal = (GregorianCalendar) GregorianCalendar.getInstance();
 		Date date = new Date();
 		switch (validity){
+			case ONE_MIN:{
+				cal.add(Calendar.MINUTE, 1);
+				date.setTime(cal.getTime().getTime());
+				break;
+			}
 			case ONE_HOUR:{
 				cal.add(Calendar.HOUR, 1);
 				date.setTime(cal.getTime().getTime());
@@ -109,33 +133,6 @@ public class UploadServiceImpl implements UploadService {
 		}
 		return date;
 	}
-	
-	@Scheduled(fixedDelay=1000*60*60)
-	public void deleteExpiredFiles(){
-		List<UploadedFileDTO> expiredFiles = fileDao.getExiredFiles();
-		if(!expiredFiles.isEmpty()){
-			logger.info("Found: "+expiredFiles.size()+"] expired files");
-			for(UploadedFileDTO fileToDelete: expiredFiles){
-				logger.info("Deleting file: ["+fileToDelete.getFileName()+"], size: ["+fileToDelete.getFileSize()+"], uuid: ["+fileToDelete.getUuid()+"]");
-				File f = new File(uploadFilePath,fileToDelete.getUuid());
-				boolean deleted = f.delete();
-				fileDao.delete(fileToDelete);
-				logger.info("Deleting file: ["+fileToDelete.getFileName()+"], size: ["+fileToDelete.getFileSize()+"], uuid: ["+fileToDelete.getUuid()+"] completed with result: ["+deleted+"]");
-			}
-		}
-	}
-	
-	
-	
-	@Scheduled(fixedDelay=1000*60*60*4)
-	public void listActiveFiles(){
-		List<UploadedFileDTO> activeFiles = fileDao.getActiveFiles();
-		logger.info("There are: ["+activeFiles.size()+"] active files");
-		for(UploadedFileDTO f : activeFiles){
-			logger.info("Active file: ["+f.getFileName()+"], uuid: ["+f.getUuid()+"], size: ["+f.getFileSize()+"], ip: ["+f.getSourceIp()+"], uploaded: ["+MyDateUtils.printDateTime(f.getUploadStart())+"]");
-		}
-	}
-		
 	
 	
 }

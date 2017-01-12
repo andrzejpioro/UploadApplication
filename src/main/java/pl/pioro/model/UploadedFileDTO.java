@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 
 @Entity
@@ -30,6 +31,9 @@ public class UploadedFileDTO {
 	
 	@Column(name="file_dir")
 	private String fileDir;
+	
+	@Column(name="email")
+	private String email;
 	
 	@Column(name="file_size")
 	private Long fileSize;
@@ -52,6 +56,9 @@ public class UploadedFileDTO {
 	@Column(name="file_expr")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date fileExpr;
+	
+	@Column(name="deleted")
+	private int deleted;
 
 	@Column(name="session_id")
 	private String sessionId;
@@ -85,19 +92,21 @@ public class UploadedFileDTO {
 		this.fileName = fileName;
 	}
 
-
+	public String getEmail() {
+		return email;
+	}
+	
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
 	public String getFileDir() {
 		return fileDir;
 	}
 
-
-
 	public void setFileDir(String fileDir) {
 		this.fileDir = fileDir;
 	}
-
-
 
 	public String getUuid() {
 		return uuid;
@@ -164,11 +173,20 @@ public class UploadedFileDTO {
 	public void setFileSize(Long fileSize) {
 		this.fileSize = fileSize;
 	}
+	
+	public int getDeleted() {
+		return deleted;
+	}
+	
+	public void setDeleted(int deleted) {
+		this.deleted = deleted;
+	}
+	
 	@Override
 	public String toString() {
 		return "UploadedFileDTO [fileId=" + fileId + ", fileName=" + fileName + ", fileDir=" + fileDir + ", fileSize="
 				+ fileSize + ", uuid=" + uuid + ", sourceIp=" + sourceIp + ", uploadStart=" + uploadStart
-				+ ", uploadStop=" + uploadStop + ", fileExpr=" + fileExpr + ", sessionId=" + sessionId + "]";
+				+ ", uploadStop=" + uploadStop + ", fileExpr=" + fileExpr + ", sessionId=" + sessionId + ", email= "+ email +"]";
 	}
 
 

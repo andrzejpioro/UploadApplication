@@ -2,6 +2,7 @@ package pl.pioro.model;
 
 public enum ValidityEnum {
 
+	ONE_MIN("1m"),
 	ONE_HOUR("1h"),
 	ONE_DAY("1d"),
 	SEVEN_DAYS("7d"),
@@ -16,6 +17,8 @@ public enum ValidityEnum {
 	private String kod;
 	
 	public static ValidityEnum fromValue(String kod){
+		if(kod.equals("1m"))
+			return ValidityEnum.ONE_MIN;
 		if(kod.equals("1h"))
 			return ValidityEnum.ONE_HOUR; 
 		if(kod.equals("1d"))

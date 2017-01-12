@@ -24,8 +24,11 @@ public class MyDateUtils {
 
 
     public static String printDateTime(Date data) {
-        SimpleDateFormat df = new SimpleDateFormat(TIME_FORMAT_PATTERN);
-        return df.format(data);
+    	if(data!=null){
+    		SimpleDateFormat df = new SimpleDateFormat(TIME_FORMAT_PATTERN);
+            return df.format(data);	
+    	}
+        return "";
     }
 
 

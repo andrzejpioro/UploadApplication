@@ -1,3 +1,4 @@
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -37,24 +38,29 @@
 	       		</a>
 	  		</div>
   	</div>
-  	
-       	<div class="row">
-	        <div class="col-sm-12 " >
-	        	  <label for="fileName">Result:</label>
-	  			<input type="text" class="form-control" id="fileName" value="SUCCESS" readonly="readonly"/>
-	  		</div>
-  		</div>
-       	<div class="row">
+  		<div class="row">
 	        <div class="col-sm-12 " >
 	        	  <label for="fileName">File name:</label>
 	  			<input type="text" class="form-control" id="fileName" value="${FILE_NAME}" readonly="readonly"/>
 	  		</div>
   		</div>
-  		
+       	<div class="row">
+	        <div class="col-sm-12 " >
+	        	  <label for="fileStatus">Status:</label>
+	  			<input type="text" class="form-control" id="fileStatus" value="${FILE_STATUS}" readonly="readonly"/>
+	  		</div>
+  		</div>
+
   		<div class="row">
   			<div class="col-sm-12">
 	          <label for="fileSize">File size 	[B]:</label>
 	  		  <input type="text" class="form-control" id="fileSize" value="${FILE_SIZE}" readonly="readonly"/>
+  			</div>
+        </div>
+        <div class="row">
+  			<div class="col-sm-12">
+	          <label for="fileUploaded">File uploaded:</label>
+	  		  <input type="text" class="form-control" id="fileUploaded" value="${FILE_UPLOAD_STOP}" readonly="readonly"/>
   			</div>
         </div>
         <div class="row">
@@ -69,14 +75,47 @@
 	  			<input type="text" class="form-control" id="directLink" value="${FILE_URL}" readonly="readonly"/>
 	  		</div>
 	  	</div>
+	  	 <div class="row">
+	        <div class="col-sm-12">
+	        	<label for="directLink">Downloads:</label>
+	        	<div  class="table-responsive">
+	        	  <table class="table table-striped">
+	        	  	<thead>
+				      <tr>
+				        <th>Source IP</th>
+				        <th>SessionID</th>
+				        <th>Download Start</th>
+				        <th>Download Stop</th>
+				      </tr>
+				    </thead>
+				    <tbody>
+						<c:forEach var="downloadedFile" items="${FILE_DOWNLOADS}">
+							<tr>
+								<td>${downloadedFile.sourceIp}</td>
+								<td>${downloadedFile.sessionId}</td>
+								<td>${downloadedFile.downloadStart}</td>
+								<td>${downloadedFile.downloadStop}</td>
+							</tr>
+						</c:forEach>    
+				    </tbody>
+	        	  </table>
+	        	</div>
+	  		</div>
+	  	</div>
+	  	
+	  		
+	  	
 	  	<hr/>
-	  	<div class="row">
+	  	<c:if test = "${FILE_STATUS == 'ACTIVE'}">
+	  		<div class="row">
 	  		<div class="col-sm-12">
 				        <a href="${FILE_URL}" class="btn btn-info btn-lg">
 	       					<span class="fa fa-download"></span> Press here to download your file!
 	       				</a>
 	  		</div>
 	  	</div>
+	  	</c:if>
+	  	
   
 </div>
 

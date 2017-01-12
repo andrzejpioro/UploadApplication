@@ -22,6 +22,12 @@
      <logger name="pl.pioro">
      	<level value="TRACE"/>
      </logger>
+     <logger name="org.hibernate.SQL">
+     	<level value="TRACE"/>
+     </logger>
+     <logger name="org.hibernate.type">
+     	<level value="TRACE"/>
+     </logger>
 
      <root>
           <level value="INFO" />

@@ -1,2 +1,0 @@
---drop table files;
-CREATE TABLE files(file_id INTEGER PRIMARY KEY AUTOINCREMENT, file_name VARCHAR(255), file_dir VARCHAR(255), file_size long, uuid VARCHAR(100), source_ip VARCHAR(15), session_id VARCHAR(255), upload_start Datetime, upload_stop Datetime, file_expr Datetime);
