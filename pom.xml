@@ -4,7 +4,7 @@
 
     <groupId>pl.pioro.poc</groupId>
     <artifactId>UploadApplication</artifactId>
-    <version>0.2.0-SNAPSHOT</version>
+    <version>0.2.1-SNAPSHOT</version>
     <url>https://github.com/milioner69/UploadApplication</url>
     
     <issueManagement>
@@ -17,7 +17,14 @@
 		<connection>scm:git:git@github.com:milioner69/${project.artifactId}.git</connection>
 		<developerConnection>scm:git:git@github.com:milioner69/${project.artifactId}.git</developerConnection>
 	  <tag>UploadApplication-0.1.4</tag>
-  </scm>
+	</scm>
+	<distributionManagement>
+		<repository>
+			<id>internal</id>
+			<name>My Internal Local Repo</name>
+			<url>file:///c:/Private/Dokumenty/MVN_REPOSITORY/release</url>
+		</repository>
+	</distributionManagement>
     
 	<properties>
 		<spring.version>3.1.0.RELEASE</spring.version>
