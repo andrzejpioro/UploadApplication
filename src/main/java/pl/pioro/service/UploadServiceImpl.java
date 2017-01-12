@@ -125,4 +125,17 @@ public class UploadServiceImpl implements UploadService {
 		}
 	}
 	
+	
+	
+	@Scheduled(fixedDelay=1000*60*60*4)
+	public void listActiveFiles(){
+		List<UploadedFileDTO> activeFiles = fileDao.getActiveFiles();
+		logger.info("There are: ["+activeFiles.size()+"] active files");
+		for(UploadedFileDTO f : activeFiles){
+			logger.info("Active file: ["+f.getFileName()+"], uuid: ["+f.getUuid()+"], size: ["+f.getFileSize()+"], ip: ["+f.getSourceIp()+"], uploaded: ["+MyDateUtils.printDateTime(f.getUploadStart())+"]");
+		}
+	}
+		
+	
+	
 }
