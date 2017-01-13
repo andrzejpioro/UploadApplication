@@ -25,7 +25,6 @@ public class HouseKeepingComponent {
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
-//	@Scheduled(fixedDelay=1000*10 )
 	@Scheduled(fixedDelay=1000*60*20 )
 	public void deleteExpiredFiles(){
 //		logger.info("Checking expired files");
@@ -47,10 +46,14 @@ public class HouseKeepingComponent {
 	@Scheduled(fixedDelay=1000*60*60*4)
 	public void listActiveFiles(){
 		List<UploadedFileDTO> activeFiles = fileDao.getActiveFiles(new Date());
-		logger.info("There are: ["+activeFiles.size()+"] active files");
-		for(UploadedFileDTO f : activeFiles){
-			logger.info("Active uuid: ["+f.getUuid()+"], fileName: ["+f.getFileName()+"], size: ["+f.getFileSize()+"], ip: ["+f.getSourceIp()+"], email: ["+f.getEmail()+"], uploaded: ["+MyDateUtils.printDateTime(f.getUploadStart())+"], expire: ["+MyDateUtils.printDateTime(f.getFileExpr())+"]");
+		if(activeFiles.size()>0){
+			logger.info("Listing active files..");
+			logger.info("There are: ["+activeFiles.size()+"] active files");
+			for(UploadedFileDTO f : activeFiles){
+				logger.info("Active uuid: ["+f.getUuid()+"], fileName: ["+f.getFileName()+"], size: ["+f.getFileSize()+"], ip: ["+f.getSourceIp()+"], email: ["+f.getEmail()+"], uploaded: ["+MyDateUtils.printDateTime(f.getUploadStart())+"], expire: ["+MyDateUtils.printDateTime(f.getFileExpr())+"]");
+			}	
 		}
+		
 	}
 
 }
