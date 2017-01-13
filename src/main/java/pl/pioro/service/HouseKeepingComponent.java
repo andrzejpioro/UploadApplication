@@ -4,8 +4,8 @@ import java.io.File;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -23,9 +23,9 @@ public class HouseKeepingComponent {
 	@Autowired
 	FileNewDao fileDao;
 	
-	Log logger = LogFactory.getLog(getClass());
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
-	@Scheduled(fixedDelay=1000*10 )
+//	@Scheduled(fixedDelay=1000*10 )
 	@Scheduled(fixedDelay=1000*60*20 )
 	public void deleteExpiredFiles(){
 //		logger.info("Checking expired files");

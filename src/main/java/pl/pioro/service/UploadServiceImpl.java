@@ -10,11 +10,10 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.UUID;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -33,7 +32,7 @@ public class UploadServiceImpl implements UploadService {
 	@Autowired FileNewDao fileDao;
 	@Autowired DownloadDao downloadDao;
 	
-	Log logger = LogFactory.getLog(getClass());
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Override
 	public UploadedFileDTO saveFile(MultipartFile file, String dirPath, String validity, String sourceIp, String sessionId, String email) {
@@ -91,7 +90,7 @@ public class UploadServiceImpl implements UploadService {
          stream.close();
          logger.info("Receiving file id :["+dto.getUuid()+"] completed");
     	} catch (IOException e){
-    		logger.error(e);
+    		logger.error(e.getMessage());
     	}
     	
 	}

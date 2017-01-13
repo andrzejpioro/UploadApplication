@@ -12,8 +12,6 @@ import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -25,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import pl.pioro.exceptions.FileWithIdNotFoundException;
 import pl.pioro.model.DownloadedFileDTO;
@@ -42,7 +42,8 @@ public class FileUploadController {
 	@Autowired
 	private UploadService uploadService;
 	
-	private Log logger = LogFactory.getLog(FileUploadController.class);
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
+
 	
 	private final String getFileURI="/get";
 
